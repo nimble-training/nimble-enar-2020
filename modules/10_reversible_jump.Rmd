@@ -1,0 +1,95 @@
+---
+title: "Reversible jump for variable selection"
+subtitle: "NIMBLE ENAR 2020 short course"
+author: "NIMBLE Development Team"
+output:
+  html_document:
+    code_folding: show
+---
+
+
+```{r chunksetup, include=FALSE} 
+# include any code here you don't want to show up in the document,
+# e.g. package and dataset loading
+library(methods)  # otherwise new() not being found
+library(nimble)
+```
+
+# Introduction to Bayesian variable selection
+
+- You have many candidate explanatory variables.
+- Bayesian approach is to have a probability that a variable is included in the model.
+- Really this is a probability that the coefficient is $\ne 0$.
+- BUGS/JAGS implementation is with indicator variables.
+
+```
+  linear_predictor[i] <- beta0 + ind * beta1 * x[i]
+```
+
+- This has problems: when `ind` is 0, `beta1` follows its prior, until it hits a reasonable value for `beta1` that allows `ind` equal to 1 to be accepted.
+- "Solution": informative priors
+
+# Solution!: Reversible Jump MCMC
+
+ - RJMCMC is a method for sampling across different models.
+ - Specifically it is about sampling between different numbers of dimensions.
+ - In full generality, RJ requires one to figure out a way to propose reasonable parameter values when moving between models. Hard!
+ - RJ for variable selection is relatively simple.
+
+    - We don't change the actual NIMBLE model object, but we turn on and off which dimensions are sampled.
+    - Implementation, like all samplers, is written using `nimbleFunction`s.
+
+Recall that we had two covariates in the AFT model - blood urea nitrogen and hemoglobin. Let's see if hemoglobin is needed in the model using Bayesian variable selection.
+
+# RJMCMC for variable selection in nimble
+
+
+- Update an MCMC configuration to use RJMCMC.
+
+
+
+```{r, aft-rjmcmc-setup}
+
+model_sel <- model$newModel(replicate = TRUE)  # or we could just `nimbleModel` again with the original model code
+cmodel_sel <- compileNimble(model_sel)
+
+conf_sel <- configureMCMC(model_sel)
+configureRJ(conf_sel,
+            targetNodes = 'delta[2]',
+            priorProb = 0.5,
+            control = list(mean = 0, scale = 2))
+mcmc_sel <- buildMCMC(conf_sel)
+
+cmcmc_sel <- compileNimble(mcmc_sel, project = model_sel)
+
+# Running the MCMC
+
+Now let's run the MCMC. We'll need to manually assign our special samplers for the RJ aspect of things. 
+      
+```{r, aft-mcmc}
+resultsAFT <- runMCMC(cmcmc_sel, niter = 21000, nburnin = 100) ## burnin is post-thinning (to be fixed in next NIMBLE release)
+```
+
+Let's look at the MCMC behavior of the coefficient of interest.
+
+```{r, results, fig.width=8, fig.height=5, fig.cap=''}
+par(mfrow = c(1,2))
+ts.plot(resultsAFT[ , 'delta[2]'] != 0, xlab = 'iteration', ylab = 'delta[2] presence',
+                    main = 'delta[2] presence')
+ts.plot(resultsAFT[ , 'delta[2]'], xlab = 'iterations', ylab = 'delta[2]',
+               main = 'hemoglobin coefficient')
+
+## posterior probability of inclusion    
+mean(resultsAFT[ , 'delta[2]'] != 0)  
+```
+
+# Summary of RJMCMC
+
+- Mixing will generally be better than simply using an indicator function without RJMCMC.
+- One can use RJ for variable selection in NIMBLE either with or without indicator functions.
+   - Use of indicator functions allows for hierarchical structure for selection of multiple variables.
+- Adaptation for coefficient samplers only occurs when the coefficient is "in the model".
+- Run time should be much faster *if* posterior probability of inclusion is not large. 
+- Tuning parameter of RJ proposal scale (sd) must be chosen.
+
+

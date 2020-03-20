@@ -1,0 +1,24 @@
+---
+title: "Exercises: MCMC and user-defined distributions"
+subtitle: "NIMBLE ENAR 2020 short course"
+author: "NIMBLE Development Team"
+output:
+  html_document:
+    code_folding: show
+---
+
+# Exercises:
+
+Choose any of these that look interesting to you.
+
+MCMC:
+
+ - Try modifying the scale or propCov arguments to the cross-level sampler (see how we did this for the standard block sampler) and see if that eliminates the initial stickiness of the sampler.
+ - Play with different initializations of the scale or propCov for the block samplers.
+ - Run one or more of the MCMC variants with multiple chains and judge convergence based on the Gelman-Rubin diagnostic or other diagnostics you like.
+ - Try blocking the hyperparameters for each group of parameters in the model of Module 6 (user-defined distribuitons), following the syntax in the previous model. See if that improves mixing. 
+ - Set up your own model and run a basic MCMC on it.
+
+User-defined distributions:
+
+ - Write a user-defined zero-inflated Poisson distribution and check that you can use it in a model.
