@@ -49,7 +49,8 @@ Recall that we had two covariates in the AFT model - blood urea nitrogen and hem
 
 
 ```{r, aft-rjmcmc-setup}
-
+if(!exists('model'))  ## need AFT setup code when generating html from Rmd
+  source("9_survival_analysis.R")
 model_sel <- model$newModel(replicate = TRUE)  # or we could just `nimbleModel` again with the original model code
 cmodel_sel <- compileNimble(model_sel)
 
@@ -61,13 +62,14 @@ configureRJ(conf_sel,
 mcmc_sel <- buildMCMC(conf_sel)
 
 cmcmc_sel <- compileNimble(mcmc_sel, project = model_sel)
+```
 
 # Running the MCMC
 
 Now let's run the MCMC. We'll need to manually assign our special samplers for the RJ aspect of things. 
       
 ```{r, aft-mcmc}
-resultsAFT <- runMCMC(cmcmc_sel, niter = 21000, nburnin = 100) ## burnin is post-thinning (to be fixed in next NIMBLE release)
+resultsAFT <- runMCMC(cmcmc_sel, niter = 21000, nburnin = 1000) 
 ```
 
 Let's look at the MCMC behavior of the coefficient of interest.
