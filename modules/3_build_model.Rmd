@@ -130,19 +130,7 @@ littersModel$getLogProb('p')  # now we're good
 
 Here's an example:
 
-littersCode <- nimbleCode({
-  for (i in 1:G) {
-     for (j in 1:N) {
-        # likelihood (data model)
-        r[i,j] ~ dbin(p[i,j], n[i,j])
-        # latent process (random effects)
-        p[i,j] ~ dbeta(a[i], b[i]) 
-     }
-     # prior for hyperparameters
-     a[i] ~ dgamma(1, .001)
-     b[i] ~ dgamma(1, .001)
-   }
-})
+
 
 ```{r, data-example}
 littersModel$isData('r[1:2, 3:5]')
