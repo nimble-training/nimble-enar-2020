@@ -1,8 +1,6 @@
 # nimble-enar-2020
 Materials for NIMBLE (virtual) short course at the March 2020 ENAR meeting.
 
-[2020-03-20: Content here is mostly as it will be for the short course but I am still fixing minor problems.]
-
 All materials for the workshop will be here. If you're familiar with Git/Github, you already know how to get all the materials on your computer. If you're not, simply click [here](https://github.com/nimble-training/nimble-enar-2020/archive/master.zip).
 
 Get started [here](https://htmlpreview.github.io/?https://github.com/nimble-training/nimble-enar-2020/blob/master/overview_slides.html) with logistical information and an outline of the workshop content.

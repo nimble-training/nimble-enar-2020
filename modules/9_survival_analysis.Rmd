@@ -138,7 +138,7 @@ for(node in model$expandNodeNames('etaTilde'))
     conf$addSampler(node,'slice')
 mcmc <- buildMCMC(conf)
 cmcmc <- compileNimble(mcmc, project = model)
-resultsAFT <- runMCMC(cmcmc, niter = 21000, nburnin = 100) ## burnin is post-thinning (this will be fixed in next NIMBLE release)
+resultsAFT <- runMCMC(cmcmc, niter = 21000, nburnin = 1000) 
 
 xiCols <- grep('xi', colnames(resultsAFT))
 nComponents <- apply(resultsAFT[ , xiCols], 1, function(x) length(unique(x)))

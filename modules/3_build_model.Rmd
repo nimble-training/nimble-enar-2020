@@ -146,6 +146,7 @@ littersModel$r[1:2, 3:5]
 ```
 
 - NIMBLE will usually disambiguate data when it is provided as constants.
+- Use of `NA` in elements of a variable containing data values will tell NIMBLE these are missing data that should be sampled in an MCMC.
 
 # Constants vs. right-hand side nodes
 

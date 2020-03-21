@@ -105,32 +105,6 @@ littersModel &lt;-<span class="st"> </span><span class="kw">nimbleModel</span>(l
 <pre><code>## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 <pre><code>## compilation finished.</code></pre>
 </div>
-<div id="nodes-and-variables" class="slide section level1">
-<h1>Nodes and variables</h1>
-<p>The parameters and data in a model are represented as nodes in a graph. Here we define some terms:</p>
-<ul>
-<li>parameter: an unknown quantity in the model that is represented as a random variable and will generally be estimated in an algorithm, e.g. <code>a[1]</code> in the litters model</li>
-<li>data: a known quantity in a model, also represented as a random variable, e.g., <code>r[1,1], r[1,2], ...</code> in the litters model</li>
-<li>constants: other fixed quantities involved in the model, e.g., <code>N</code> in the litters model</li>
-<li>node: an element in the model graph representing data, parameter, or a deterministic quantity that is a function of other quantities in the model, e.g., <code>lambda[3]</code> or <code>xi[1:65]</code> in the AFT model</li>
-<li>variable: a collection of one or more nodes with the same name, e.g., <code>lambda</code> or <code>xi</code> in the AFT model</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">codeAFT &lt;-<span class="st"> </span><span class="kw">nimbleCode</span>({
-    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {
-        x[i] <span class="op">~</span><span class="st"> </span><span class="kw">dweib</span>(alpha, lambda[i])
-        is_cens[i] <span class="op">~</span><span class="st"> </span><span class="kw">dinterval</span>(x[i], c[i])  ## right-censoring
-        lambda[i] &lt;-<span class="st"> </span><span class="kw">exp</span>(eta[i] <span class="op">+</span><span class="st"> </span>Z[i,<span class="dv">1</span>]<span class="op">*</span>delta[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>Z[i,<span class="dv">2</span>]<span class="op">*</span>delta[<span class="dv">2</span>])
-        eta[i] &lt;-<span class="st"> </span>etaTilde[xi[i]]  ## mix over eta; mu = exp(eta)
-    }
-    xi[<span class="dv">1</span><span class="op">:</span>n] <span class="op">~</span><span class="st"> </span><span class="kw">dCRP</span>(conc, <span class="dt">size =</span> n) ## CRP for mixture components
-    conc <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)
-    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nSub)
-        etaTilde[i] <span class="op">~</span><span class="st"> </span><span class="kw">dunif</span>(b0, B0) ## base measure H_b
-    alpha <span class="op">~</span><span class="st"> </span><span class="kw">dunif</span>(a0, A0)
-    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>p)
-        delta[j] <span class="op">~</span><span class="st"> </span><span class="kw">dflat</span>()
-})</code></pre></div>
-</div>
 <div id="values-in-the-model" class="slide section level1">
 <h1>Values in the model</h1>
 <p>What's the current value in a node?</p>

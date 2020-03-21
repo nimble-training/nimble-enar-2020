@@ -246,32 +246,6 @@ littersModel &lt;- nimbleModel(littersCode,
 <pre><code>## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 <pre><code>## compilation finished.</code></pre>
 </div>
-<div id="nodes-and-variables" class="section level1">
-<h1>Nodes and variables</h1>
-<p>The parameters and data in a model are represented as nodes in a graph. Here we define some terms:</p>
-<ul>
-<li>parameter: an unknown quantity in the model that is represented as a random variable and will generally be estimated in an algorithm, e.g. <code>a[1]</code> in the litters model</li>
-<li>data: a known quantity in a model, also represented as a random variable, e.g., <code>r[1,1], r[1,2], ...</code> in the litters model</li>
-<li>constants: other fixed quantities involved in the model, e.g., <code>N</code> in the litters model</li>
-<li>node: an element in the model graph representing data, parameter, or a deterministic quantity that is a function of other quantities in the model, e.g., <code>lambda[3]</code> or <code>xi[1:65]</code> in the AFT model</li>
-<li>variable: a collection of one or more nodes with the same name, e.g., <code>lambda</code> or <code>xi</code> in the AFT model</li>
-</ul>
-<pre class="r"><code>codeAFT &lt;- nimbleCode({
-    for(i in 1:n) {
-        x[i] ~ dweib(alpha, lambda[i])
-        is_cens[i] ~ dinterval(x[i], c[i])  ## right-censoring
-        lambda[i] &lt;- exp(eta[i] + Z[i,1]*delta[1] + Z[i,2]*delta[2])
-        eta[i] &lt;- etaTilde[xi[i]]  ## mix over eta; mu = exp(eta)
-    }
-    xi[1:n] ~ dCRP(conc, size = n) ## CRP for mixture components
-    conc ~ dgamma(1, 1)
-    for(i in 1:nSub)
-        etaTilde[i] ~ dunif(b0, B0) ## base measure H_b
-    alpha ~ dunif(a0, A0)
-    for(j in 1:p)
-        delta[j] ~ dflat()
-})</code></pre>
-</div>
 <div id="values-in-the-model" class="section level1">
 <h1>Values in the model</h1>
 <p>What’s the current value in a node?</p>

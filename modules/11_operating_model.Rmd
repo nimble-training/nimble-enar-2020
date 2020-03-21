@@ -48,33 +48,6 @@ littersCode <- nimbleCode({
 ```{r, litters-compile}
 ```
 
-# Nodes and variables
-
-The parameters and data in a model are represented as nodes in a graph. Here we define some terms:
-
- - parameter: an unknown quantity in the model that is represented as a random variable and will generally be estimated in an algorithm, e.g. `a[1]` in the litters model
- - data: a known quantity in a model, also represented as a random variable, e.g., `r[1,1], r[1,2], ...` in the litters model
- - constants: other fixed quantities involved in the model, e.g., `N` in the litters model
- - node: an element in the model graph representing data, parameter, or a deterministic quantity that is a function of other quantities in the model, e.g., `lambda[3]` or `xi[1:65]` in the AFT model
- - variable: a collection of one or more nodes with the same name, e.g., `lambda` or `xi` in the AFT model 
-
-```{r, AFT-code, eval=FALSE}
-codeAFT <- nimbleCode({
-    for(i in 1:n) {
-        x[i] ~ dweib(alpha, lambda[i])
-        is_cens[i] ~ dinterval(x[i], c[i])  ## right-censoring
-        lambda[i] <- exp(eta[i] + Z[i,1]*delta[1] + Z[i,2]*delta[2])
-        eta[i] <- etaTilde[xi[i]]  ## mix over eta; mu = exp(eta)
-    }
-    xi[1:n] ~ dCRP(conc, size = n) ## CRP for mixture components
-    conc ~ dgamma(1, 1)
-    for(i in 1:nSub)
-        etaTilde[i] ~ dunif(b0, B0) ## base measure H_b
-    alpha ~ dunif(a0, A0)
-    for(j in 1:p)
-        delta[j] ~ dflat()
-})
-```
 
 # Values in the model
 

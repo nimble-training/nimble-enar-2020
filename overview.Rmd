@@ -114,7 +114,7 @@ Here are the modules we'll work through for this short course.
     4. [Running an MCMC](modules/4_run_mcmc_slides.html)
     
  - Customization (60 minutes)
-    4. [Customizing an MCMC](modules/5_customizing_mcmc_slides.html)
+    5. [Customizing an MCMC](modules/5_customizing_mcmc_slides.html)
     6. [User-defined distributions](modules/6_user_dist_slides.html)
     7. [Exercises: customizing an MCMC and writing your own distribution](modules/7_exercises_slides.html)
 
@@ -130,7 +130,7 @@ Here are the modules we'll work through for this short course.
     12. [Inspecting model structure](modules/12_model_structure_slides.html)
     13. [Writing an algorithm using nimbleFunctions](modules/13_nimbleFunctions_slides.html)
     14. [Writing your own MCMC sampler](modules/14_user_sampler_slides.html)
-    15. [Wrap up](modules/modules/15_wrapup_slides.html)
+    15. [Wrap up](modules/15_wrapup_slides.html)
 
 
 

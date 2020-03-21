@@ -43,11 +43,11 @@ There are lots of example models originally provided by the BUGS project:
   - Included in NIMBLE (*classic-bugs* directory) or found here on the [JAGS website](https://sourceforge.net/projects/mcmc-jags/files/Examples/).
   - Information provided here: [Volume 1](http://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS_Vol1.pdf), [Volume 2](http://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS_Vol2.pdf), and [Volume 3](http://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS_Vol3.pdf) of the WinBUGS example manuals.
 
-We'll see a variety of example models this afternoon.
+We'll see a variety of example models today.
 
 # NIMBLE's dialect of BUGS
 
-   - The BUGS syntax used in NIMBLE has minor differences from that used in WinBUGS, OpenBUGS and/or JAGS. We'll see some of this as we go along, in particular in the [module on NIMBLE's dialect of BUGS](3.1_nimble_bugs_slides.html).
+   - The BUGS syntax used in NIMBLE has minor differences from that used in WinBUGS, OpenBUGS and/or JAGS. We'll see some of this as we go along, in particular at the end of this module.
    - Also described in Section 5 of the [NIMBLE Users Manual](https://r-nimble.org/manuals/NimbleUserManual.pdf) and in this [blog post](https://r-nimble.org/quick-guide-for-converting-from-jags-or-bugs-to-nimble).
 
 # A basic example
