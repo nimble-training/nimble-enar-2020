@@ -13,7 +13,7 @@ output:
 # e.g. package and dataset loading
 library(methods)  # otherwise new() not being found - weird
 library(nimble)
-read_chunk("chunks.R")
+knitr::read_chunk("chunks.R")
 ```
 
 # Overview
@@ -55,6 +55,7 @@ What's the current value in a node?
 
 
 ```{r, model-values}
+source('chunks.R')
 littersModel$r  
 littersModel$a[1]
 littersModel$p

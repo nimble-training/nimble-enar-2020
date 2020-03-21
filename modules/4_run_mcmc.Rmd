@@ -12,7 +12,9 @@ output:
 # e.g. package and dataset loading
 library(methods)  # otherwise new() not being found
 library(nimble)
-knitr::read_chunk("chunks_litters.R")
+knitr::read_chunk('chunks_litters.R')
+if(!exists('littersModel'))
+  source("chunks_litters.R")
 ```
 
 # A very basic MCMC
